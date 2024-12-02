@@ -12,6 +12,7 @@ This Ender 3 S1 Pro setup has 3 4020 fans, 2 for the hot end, and 1 for the prin
 Then find:
 
 ```ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.86.45', '<External IP>']```
+
 and add/change the ports (internal and external) 
 
 Stay CD'd into ```~/Downloads/obico-server ``` 
