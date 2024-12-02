@@ -62,3 +62,79 @@ max_fps: 15                             # If Hardware Supports this it will be f
 #custom_flags:                          # You can run the Stream Services with custom flags.
 #v4l2ctl:                               # Add v4l2-ctl parameters to setup your camera, see Log what your cam is capable of.
 ```
+
+
+## Start G-Code:
+
+```
+; Ender 3 S1 Pro Start G-code
+; Disable power loss recovery (Klipper does not support this, so it is removed)
+; M413 S0
+
+; Reset Extruder
+G92 E0
+
+; Start heating the bed and hotend
+M140 S{material_bed_temperature_layer_0} ; Set bed temperature
+M104 S{material_print_temperature_layer_0} ; Set hotend temperature
+
+; Home all axes
+G28
+
+; Move Z Axis up a little to prevent scratching of Heat Bed
+G1 Z10.0 F3000
+
+; Safe move to the center of the build volume
+G1 X110 Y110 F3000 ; Move to the center of the build volume for consistent priming
+
+; Wait for bed to reach target temp
+M190 S{material_bed_temperature_layer_0}
+
+; Wait for hotend to reach target temp
+M109 S{material_print_temperature_layer_0}
+
+; Prime the nozzle by drawing lines on the bed
+G1 X5 Y20 Z0.3 F5000.0 ; Move to start position (near front of the bed)
+G1 X5 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
+G1 X5.4 Y200.0 Z0.3 F5000.0 ; Move to the side a little
+G1 X5.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
+
+; Reset Extruder
+G92 E0
+
+; Move Z Axis up a little to prevent scratching of Heat Bed
+G1 Z2.0 F3000
+
+; Move over to prevent blob squish
+G1 X10 Y20 Z0.3 F5000.0
+```
+
+
+End G-Code:
+
+```
+; Ender 3 S1 Pro End G-code
+
+; Relative positioning for retraction and Z movement
+G91
+G1 E-2 F2700 ; Retract filament
+G1 E-2 Z0.2 F2400 ; Retract and raise Z slightly
+
+; Wipe the nozzle and raise Z
+G1 X5 Y5 F3000 ; Move away from the print
+G1 Z10 ; Raise Z more to clear the print
+
+; Switch back to absolute positioning
+G90
+
+; Present the print at the front
+G1 X0 Y220 F3000 ; Move the print to the front (Y = 220, adjusted to be within range)
+
+; Turn off cooling fan, hotend, and bed
+M106 S0 ; Turn off fan
+M104 S0 ; Turn off hotend
+M140 S0 ; Turn off bed
+
+; Disable all steppers except Z to prevent sagging
+M84 X Y E ; Disable X, Y, and extruder steppers
+```
