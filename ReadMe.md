@@ -1,6 +1,9 @@
 # Ender 3 S1 PRO - Klipper - Tuarus V5 Cooler - 4020 Cooler
 This Ender 3 S1 Pro setup has 3 4020 fans, 2 for the hot end, and 1 for the print head.
 
+Tuarus Cooler: https://www.printables.com/model/511962-taurus-v5-cooling-duct-for-creality-sprite-extrude
+Hot end duct: https://cults3d.com/en/3d-model/tool/ender-3-s1-pro-4020-fan-cr-touch-no-y-offset
+
 # Obico Server Setup Info:
 
 ### How to change ip address and External ip address: 
